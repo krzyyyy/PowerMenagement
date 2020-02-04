@@ -2,6 +2,8 @@
 #include <thread>
 #include <vector>
 #include "dataTypes.h"
+#include "PowerPolicy.h"
+#include "PowerCapabilities.h"
 #include <cstring>
 
 using namespace std;
@@ -32,22 +34,23 @@ void printPowerInfo(const SYSTEM_POWER_POLICY& powerInfo) {
 }
 
 int main() {
-	POWER_INFORMATION_LEVEL InformationLevel = SystemPowerInformation;
-    SYSTEM_POWER_POLICY powerInfo = SYSTEM_POWER_POLICY();
-	PVOID OutputBuffer = PVOID();
-	ULONG OutputBufferLength;
-	POWER_DATA_ACCESSOR AccessFlags = POWER_DATA_ACCESSOR();
-	UINT pwrSchame = UINT();
-	PUINT number  = &pwrSchame;
-	GUID g;
-	LPWSTR guidstr = LPWSTR("{8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c}");
-	CLSID ff;
-	//wchar_t* clsid_str = L"{5C98B8E4-2B3D-12B1-ADE2-0000F86456B23}";
-	/*CLSIDFromString(guidstr, &ff);
-	auto ff = GetActivePwrScheme(number);*/
-	//DWORD flag = PowerSettingAccessCheck( AccessFlags, );
- 	NTSTATUS status = CallNtPowerInformation(SystemPowerPolicyDc, NULL, NULL, &powerInfo, sizeof(powerInfo));
-	printPowerInfo(powerInfo);
+    SYSTEM_POWER_POLICY powerInfoBefore = SYSTEM_POWER_POLICY(), powerInfoAfter = SYSTEM_POWER_POLICY();
+ 	NTSTATUS status = CallNtPowerInformation(SystemPowerPolicyDc, NULL, NULL, &powerInfoBefore, sizeof(powerInfoBefore));
+ 	//NTSTATUS status2 = CallNtPowerInformation(SystemPowerCapabilities, NULL, NULL, &capabilitysFlags, sizeof(capabilitysFlags));
+	PowerPolicy powerPolycy;
+	PowerCapabilities powerCapability;
+	powerPolycy << powerInfoBefore;
+	powerInfoBefore.MinThrottle = 100;
+	NTSTATUS status2 = CallNtPowerInformation(SystemPowerPolicyDc, & powerInfoBefore, sizeof(powerInfoBefore), nullptr, 0);
+	NTSTATUS status4 = CallNtPowerInformation(SystemPowerPolicyDc, NULL, NULL, &powerInfoBefore, sizeof(powerInfoBefore));
+	cout << endl << endl;
+	powerPolycy << powerInfoBefore;
+	cout << endl << endl;
+	powerInfoBefore.MinThrottle = 100;
+	NTSTATUS status3 = CallNtPowerInformation(SystemPowerPolicyDc, &powerInfoBefore, sizeof(powerInfoBefore), nullptr, 0);
+	cout << endl << endl;
+	powerPolycy << powerInfoAfter;
+
 	auto threads2 = vector <thread>(0);
 	for(int i=0;i<4;++i)
 		threads2.push_back(thread(loop));
