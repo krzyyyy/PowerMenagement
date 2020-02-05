@@ -142,13 +142,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="PowerCapabilities.cpp" />
-    <ClCompile Include="PowerPolicy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dataTypes.h" />
-    <ClInclude Include="PowerCapabilities.h" />
-    <ClInclude Include="PowerPolicy.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
