@@ -2,6 +2,8 @@
 #include <thread>
 #include <vector>
 #include "dataTypes.h"
+#include "PowerPolicy.h"
+#include "PowerCapabilities.h"
 #include <cstring>
 #include <chrono>
 #include <ctime>
