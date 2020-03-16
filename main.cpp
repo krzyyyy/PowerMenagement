@@ -32,7 +32,7 @@ int main() {
 	auto ok_set = PowerSetActiveScheme(0, &GUID_MIN_POWER_SAVINGS);
 
 	auto threads2 = vector <thread>(0);
-	for(int i=0;i<4;++i)
+	for(int i=0;i<8;++i)
 		threads2.push_back(thread(loop));
 
 	for (auto& th : threads2)
